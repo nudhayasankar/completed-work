@@ -16,10 +16,42 @@ public class CertificateOfDeposit {
         this.term = term;
     }
 
+    // Constructor chaining to avoid duplicated code
     public CertificateOfDeposit(double faceValue, double rate, int term, int cp) {
+        this(faceValue, rate, term);
+        this.cp = cp;
+    }
+
+    // Added getters and setters for all state elements
+    public double getFaceValue() {
+        return faceValue;
+    }
+
+    public void setFaceValue(double faceValue) {
         this.faceValue = faceValue;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public int getTerm() {
+        return term;
+    }
+
+    public void setTerm(int term) {
         this.term = term;
+    }
+
+    public int getCp() {
+        return cp;
+    }
+
+    public void setCp(int cp) {
         this.cp = cp;
     }
 
