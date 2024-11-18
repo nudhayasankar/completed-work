@@ -27,22 +27,22 @@ public class HiddenFile extends Node{
     }
 
     @Override
-    public String asHTML() {
-        StringBuilder html = new StringBuilder();
-        // Grey font, bold format name
-        html.append("<span style=\"color : grey;\"><strong>");
-        html.append(getName());
-        html.append("</strong> (");
-        // File size and last modified
-        html.append(size);
-        html.append(" bytes,last modified ");
-        html.append(sdf.format(lastModified));
-        html.append(")<em>[hidden]</em>");
-        return html.toString();
+    public void add(Node child) {
+        throw new java.lang.UnsupportedOperationException();
     }
 
     @Override
-    public void add(Node child) {
+    protected String getHeaderHTML() {
+        return "<span style=\"color : grey;\">";
+    }
 
+    @Override
+    protected String getDetailsHTML() {
+        return "last modified " + sdf.format(lastModified) + ")<em>[hidden]</em>";
+    }
+
+    @Override
+    protected String getFooterHTML() {
+        return "</span>";
     }
 }

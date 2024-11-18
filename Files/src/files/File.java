@@ -5,11 +5,6 @@ import java.util.Date;
 
 public class File extends Node{
     private int size;
-    private Date lastModified;
-
-    private SimpleDateFormat readFormat = new SimpleDateFormat("MM/dd/yy");
-    // Format given date in yyyy-MM-dd format
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public File(String name, int size, String lastModified) {
         super(name);
@@ -27,22 +22,22 @@ public class File extends Node{
     }
 
     @Override
-    public String asHTML() {
-        StringBuilder html = new StringBuilder();
-        // Bold Formatting
-        html.append("<strong>");
-        html.append(getName());
-        html.append("</strong> (");
-        // File size and last modified
-        html.append(size);
-        html.append(" bytes, last modified ");
-        html.append(sdf.format(lastModified));
-        html.append(")");
-        return html.toString();
+    public void add(Node child) {
+        throw new java.lang.UnsupportedOperationException();
     }
 
     @Override
-    public void add(Node child) {
+    protected String getHeaderHTML() {
+        return "";
+    }
 
+    @Override
+    protected String getDetailsHTML() {
+        return " last modified " + sdf.format(lastModified) + ")";
+    }
+
+    @Override
+    protected String getFooterHTML() {
+        return "";
     }
 }
