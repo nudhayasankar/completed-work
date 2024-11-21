@@ -22,22 +22,42 @@ public class Folder extends Node{
     }
 
     @Override
+    public String asHTML() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getNameHTML());
+        sb.append("(").append(getSizeHTML());
+        sb.append(getDetailsHTML());
+        sb.append(getChildrenHTML());
+        return sb.toString();
+    }
+
     public void add(Node child) {
         children.add(child);
     }
 
-    @Override
-    protected String getHeaderHTML() {
-        return "";
-    }
-
-    @Override
     protected String getDetailsHTML() {
         return ")";
     }
 
-    @Override
-    protected String getFooterHTML() {
-        return "";
+    protected String getChildrenHTML() {
+        if(children == null || children.isEmpty()){
+            return "";
+        }
+
+        StringBuilder htmlString = new StringBuilder();
+        htmlString.append("<ul>");
+        for(Node c : children){
+            htmlString.append("<li>").append(c.asHTML()).append("</li>");
+        }
+        htmlString.append("</ul>");
+        return htmlString.toString();
+    }
+
+    protected String getNameHTML() {
+        return "<strong>" + getName() + "</strong>";
+    }
+
+    protected String getSizeHTML() {
+        return getSize() + " bytes";
     }
 }
