@@ -1,0 +1,20 @@
+Design exercise: Reporting Rovers
+
+First, if you didn't do any of the prior Rover exercises, review Rover3-4.pdf, in order to get a sense of the project so far. We will be focusing on the Rover class, and though the existing test programs should continue to work as you move forward, you will be createing a new TestProgram3.
+
+Design a solution that expands on the existing Rover class (as found in src/com/amica/mars/Rover.java) to support a wider range of possible hardware and to support reporting of scientific observations by the rovers. Consider three specific types of rover, each with a specific capability:
+
+* One that can dig up soil and analyze it
+
+* One that can take pictures
+
+* One equipped with ground-penetrating radar that can get a sense of what is under the surface
+
+We might deploy any number of these or other types of rover, send them instructions as we already do for the existing Rover, and expect them to follow turn-and-move instructions as it does.
+
+Also, all of these specialized rovers will report their results, as simple text messages. The implementations of soil-sampling, GPR, etc. will be beyond our scope! so assume that each rover just makes up its own, distinctive message. But all messages should begin with an identification of the Rover -- not just its type, but its identity -- and its current location.
+
+By "report," we don't mean print to the console. Rather, a common receiver will listen for messages, and might combine them, pass them along, store them, etc. But the specialized rovers shouldn't be bound to any specifics of how their reports are processed; they should just know how to send their reports.
+
+Develop a design, with diagrams, text, or whatever helps you to organize and communicate your thoughts. Send this to the instructor for review, and plan to discuss the design before jumping into coding work.
+
