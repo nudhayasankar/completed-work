@@ -19,7 +19,7 @@ public class SoilDigger extends Rover{
         super(receiver);
     }
     @Override
-    public void doSpecificAction(Receiver receiver){
+    public void doSpecificAction(char command, Receiver receiver){
         LocalDateTime ts = LocalDateTime.now();
         String formattedTS = formatter.format(ts);
         receiver.listenForMessages(formattedTS + " - " + SEND_SOIL_SAMPLE);

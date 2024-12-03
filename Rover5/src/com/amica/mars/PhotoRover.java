@@ -20,9 +20,9 @@ public class PhotoRover extends Rover{
     }
 
     @Override
-    public void doSpecificAction(Receiver receiver){
-        LocalDateTime ts = LocalDateTime.now();
-        String formattedTS = formatter.format(ts);
-        receiver.listenForMessages(formattedTS + " - " + SEND_PHOTO);
+    public void doSpecificAction(char command, Receiver receiver){
+            LocalDateTime ts = LocalDateTime.now();
+            String formattedTS = formatter.format(ts);
+            receiver.listenForMessages(formattedTS + " - " + SEND_PHOTO);
     }
 }

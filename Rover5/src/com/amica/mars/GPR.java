@@ -20,10 +20,11 @@ public class GPR extends Rover{
     }
 
     @Override
-    public void scanGround(Receiver receiver){
-        LocalDateTime ts = LocalDateTime.now();
-        String formattedTS = formatter.format(ts);
-        receiver.listenForMessages(formattedTS + " - " + SCAN_GROUND);
-
+    public void doSpecificAction(char command, Receiver receiver){
+        if(command == 'S'){
+            LocalDateTime ts = LocalDateTime.now();
+            String formattedTS = formatter.format(ts);
+            receiver.listenForMessages(formattedTS + " - " + SCAN_GROUND);
+        }
     }
 }

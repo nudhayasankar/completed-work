@@ -112,11 +112,9 @@ public class Rover {
 				turnRight();
 			} else if (command == 'M') {
 				move();
-				if(this instanceof SoilDigger || this instanceof PhotoRover){
-					this.doSpecificAction(receiver);
-				}
-			} else if(command == 'S' && this instanceof GPR){
-				this.scanGround(receiver);
+				this.doSpecificAction(command, receiver);
+			} else if(command == 'S'){
+				this.doSpecificAction(command, receiver);
 			}
 			else {
 				System.out.println("Unrecognized command: " + command);
@@ -124,11 +122,7 @@ public class Rover {
 		}
 	}
 
-	public void doSpecificAction(Receiver receiver){
-		// overridden in child classes
-	}
-
-	public void scanGround(Receiver receiver){
+	public void doSpecificAction(char command, Receiver receiver){
 		// overridden in child classes
 	}
 	
