@@ -36,17 +36,28 @@ public class TestProgram3 {
 			groundPounder.takeNextStep();
 		}
 
-		// Printing all messages
-		recorder.printMessages();
-
-		System.out.println("***************************************");
-
-		// Printing ground pounder messages
-		recorder.getMessages().forEach(message -> {
-			if (message.contains(String.valueOf(groundPounderID))) {
-				System.out.println(message);
-			}
+		// Printing all reports
+		recorder.getReports().forEach(report -> {
+			System.out.println(report);
 		});
+
+		System.out.println("**************************************");
+
+		// Printing GroundPounder reports
+		recorder.getReports().stream()
+				.filter(report -> report.getSender() instanceof GroundPounder)
+				.forEach(report -> {
+					System.out.println(report);
+				});
+
+		System.out.println("**************************************");
+
+		// Printing eastern half reports
+		recorder.getReports().stream()
+				.filter(report -> report.getX() > 0)
+				.forEach(report -> {
+					System.out.println(report);
+				});
 	}
 	
 }

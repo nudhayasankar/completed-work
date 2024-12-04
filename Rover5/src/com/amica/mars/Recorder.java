@@ -5,23 +5,17 @@ import java.util.List;
 
 public class Recorder implements Telemetry {
 
-    private List<String> messages;
+    private List<Report> reports;
 
-    public List<String> getMessages() {
-        return messages;
+    public List<Report> getReports() {
+        return reports;
     }
 
     public Recorder() {
-        messages = new ArrayList<>();
+        reports = new ArrayList<>();
     }
 
-    public void sendMessage(String message) {
-        messages.add(message);
-    }
-
-    public void printMessages() {
-        messages.forEach(message -> {
-            System.out.println(message);
-        });
+    public void sendMessage(Report report) {
+        reports.add(report);
     }
 }
