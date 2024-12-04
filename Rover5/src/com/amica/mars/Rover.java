@@ -16,30 +16,25 @@ public class Rover {
 	private int y;
 	private Direction direction;
 	private StringBuffer commands;
-	private Receiver receiver;
+	private int id;
 
-	public Rover() {
-		this(0, 0, Direction.NORTH, new Receiver());
+	public int getId() {
+		return id;
 	}
 
-	public Rover(Receiver receiver) {
-		this(0, 0, Direction.NORTH, receiver);
+	public Rover(int id) {
+		this(0, 0, Direction.NORTH, id);
 	}
+
 	
-	public Rover(int x, int y, Direction direction) {
+	public Rover(int x, int y, Direction direction, int id) {
 		this.x = x;
 		this.y = y;
 		this.direction = direction;
 		this.commands = new StringBuffer();
+		this.id = id;
 	}
 
-	public Rover(int x, int y, Direction direction, Receiver receiver) {
-		this.x = x;
-		this.y = y;
-		this.direction = direction;
-		this.commands = new StringBuffer();
-		this.receiver = receiver;
-	}
 	
 	public int getX() {
 		return x;
@@ -106,24 +101,20 @@ public class Rover {
 		if (isBusy()) {
 			char command = commands.charAt(0);
 			commands.deleteCharAt(0);
-			if (command == 'L') {
-				turnLeft();
-			} else if (command == 'R') {
-				turnRight();
-			} else if (command == 'M') {
-				move();
-				this.doSpecificAction(command, receiver);
-			} else if(command == 'S'){
-				this.doSpecificAction(command, receiver);
-			}
-			else {
-				System.out.println("Unrecognized command: " + command);
-			}
+			execute(command);
 		}
 	}
 
-	public void doSpecificAction(char command, Receiver receiver){
-		// overridden in child classes
+	protected void execute(char command){
+		if (command == 'L') {
+			turnLeft();
+		} else if (command == 'R') {
+			turnRight();
+		} else if (command == 'M') {
+			move();
+		} else {
+			System.out.println("Unrecognized command: " + command);
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -132,7 +123,7 @@ public class Rover {
 		//String commands = "LL4R2R1L2";
 		//String commands = "R4LL2R17";
 		
-		Rover rover = new Rover();
+		Rover rover = new Rover(1);
 		for (int i = 0; i < commands.length(); ++i) {
 			char command = commands.charAt(i);
 			if (command == 'L') {

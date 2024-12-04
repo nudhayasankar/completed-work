@@ -73,8 +73,8 @@ public class TestUI extends JFrame {
 	public TestUI() {
 		super("Rovers");
 		
-		rover1 = new Rover();
-		rover2 = new Rover();
+		rover1 = new Rover(1);
+		rover2 = new Rover(2);
 		
 		blank = new ImageIcon(getClass().getResource("blank.jpg"));
 		direction = new ImageIcon[4];

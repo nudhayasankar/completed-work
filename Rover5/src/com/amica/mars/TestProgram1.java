@@ -9,7 +9,7 @@ public class TestProgram1 {
 
 	public static void main(String[] args) {
 
-		Rover rover = new Rover();
+		Rover rover = new Rover(1);
 		rover.receiveCommands("4R2R1L2");
 		//rover.receiveCommands("LL4R2R1L2");
 		//rover.receiveCommands("R4LL2R17");

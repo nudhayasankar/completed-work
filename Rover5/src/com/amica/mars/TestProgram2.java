@@ -10,10 +10,10 @@ public class TestProgram2 {
 
 	public static void main(String[] args) {
 
-		Rover rover1 = new Rover();
+		Rover rover1 = new Rover(1);
 		rover1.receiveCommands("4R2R1L2");
 
-		Rover rover2 = new Rover();
+		Rover rover2 = new Rover(2);
 		rover2.receiveCommands("L4R2L1");
 
 		System.out.format("Rover 1 is at (%d,%d), and facing %s.%n",
