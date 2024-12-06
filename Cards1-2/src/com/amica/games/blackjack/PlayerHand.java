@@ -40,6 +40,19 @@ public class PlayerHand {
 
     public Blackjack.Action secondCard(Card secondCard) {
         cards.add(secondCard);
+        int points = getPoints();
+        int firstVal = cards.get(0).getSpot().getValue();
+        int secondVal = cards.get(1).getSpot().getValue();
+        if(firstVal != 10 && firstVal == secondVal){
+            return Blackjack.Action.SPLIT;
+        }
+        if(points == 16 && dealerCard.getSpot().getValue() >= 9){
+            return Blackjack.Action.SURRENDER;
+        }
+        if(points == 10 || points == 11){
+            doubled = true;
+            return Blackjack.Action.DOUBLE;
+        }
         return Blackjack.Action.NONE;
     }
 
@@ -76,7 +89,15 @@ public class PlayerHand {
     }
 
     public boolean shouldHit() {
-        return getPoints() < 16;
+        int points = getPoints();
+        if(points < 12){
+            return true;
+        } else if(points > 16){
+            return false;
+        } else if(dealerCard.getSpot().getValue() >= 7){
+            return true;
+        }
+        return false;
     }
 
     public void hit(Card card){
@@ -88,11 +109,16 @@ public class PlayerHand {
     }
 
     public void dubble(Card card){
-
+        cards.add(card);
     }
 
     public List<PlayerHand> split(){
-        return null;
+        PlayerHand hand1 = new PlayerHand(owner, wager, dealerCard, cards.get(0));
+        PlayerHand hand2 = new PlayerHand(owner, wager, dealerCard, cards.get(1));
+        return new ArrayList<PlayerHand>(){{
+            add(hand1);
+            add(hand2);
+        }};
     }
 
     public String toString(){
