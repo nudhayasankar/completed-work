@@ -2,6 +2,9 @@ package com.amica.games.blackjack;
 
 import com.amica.games.Card;
 
+import java.util.Map;
+import java.util.SortedSet;
+
 /**
  * Models a player at the blackjack table, with a "bank" of chips
  * and the ability to create new {@link PlayerHand} objects in order to 

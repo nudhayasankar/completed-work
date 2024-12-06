@@ -5,9 +5,8 @@ package com.amica.games;
  *
  * @author Will Provost
  */
-public class Card {
-
-	public enum Suit { CLUBS, DIAMONDS, HEARTS, SPADES }
+public class Card implements Comparable<Card> {
+    public enum Suit { CLUBS, DIAMONDS, HEARTS, SPADES }
 	public enum Spot 
 			{ _2, _3, _4, _5, _6, _7, _8, _9, _10, JACK, QUEEN, KING, ACE }
 	
@@ -44,6 +43,29 @@ public class Card {
     public String toString() {
         return String.format ("%s of %s", spot.toString(), suit.toString());
     }
+
+    private int getOrdinal() {
+        return (this.suit.ordinal() * 13) + this.spot.ordinal();
+    }
+
+    @Override
+    public boolean equals(Object card){
+        if(!(card instanceof Card)){
+            return false;
+        }
+        return this.getOrdinal() == ((Card) card).getOrdinal();
+    }
+
+    @Override
+    public int hashCode(){
+        return this.getOrdinal();
+    }
+
+    @Override
+    public int compareTo(Card o) {
+        return Integer.compare(this.getOrdinal(), o.getOrdinal());
+    }
+
 }
 
 

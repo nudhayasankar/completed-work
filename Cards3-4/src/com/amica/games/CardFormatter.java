@@ -46,14 +46,14 @@ public class CardFormatter {
 	}
 	
 	/**
-	 * String representation is the {@link #getSpotName spot name} and suit.
+	 * String representation is the {@link # spot name} and suit.
 	 */
 	public static String nameOf(Card.Spot spot) {
 		return capitalize(spot.toString().replace("_", ""));
 	}
 	
     /**
-     * String representation is the {@link #getSpotName spot name} and suit.
+     * String representation is the {@link # spot name} and suit.
      */
 	public static String nameOf(Card card) {
 		return nameOf(card.getSpot()) + " of " + nameOf(card.getSuit()); 
