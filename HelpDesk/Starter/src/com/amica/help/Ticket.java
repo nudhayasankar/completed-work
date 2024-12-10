@@ -1,6 +1,7 @@
 package com.amica.help;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -16,9 +17,9 @@ public class Ticket implements Comparable<Ticket>{
 	private String originator;
 	private String description;
 	private Priority priority;
-	private Status status;
 	private List<Event> history;
-	private final String TICKET_CREATED = "Created ticket";
+	private final String TICKET_CREATED = "Created ticket.";
+	private final String TICKET_ASSIGNED = "Assigned to Technician %s, %s.";
 	private Technician assignedTo;
 
 	public Ticket(int id, String originator, String description, Priority priority, Technician assignedTo){
@@ -26,22 +27,14 @@ public class Ticket implements Comparable<Ticket>{
 		this.originator = originator;
 		this.description = description;
 		this.priority = priority;
-		this.status = Status.CREATED;
 		this.history = new ArrayList<>();
-		this.history.add(new Event(TICKET_CREATED));
+		this.history.add(new Event(TICKET_CREATED, Status.CREATED));
 		this.assignedTo = assignedTo;
+		this.history.add(new Event(String.format(TICKET_ASSIGNED, assignedTo.getId(), assignedTo.getName()), Status.ASSIGNED));
 	}
 
-	public int getId() {
+	public int getID() {
 		return id;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public Technician getAssignedTo() {
@@ -58,17 +51,12 @@ public class Ticket implements Comparable<Ticket>{
 	}
 
 	public void addEvent(String message, Status status){
-		this.status = status;
-		addEvent(message);
+		Event event = new Event(message, status);
+		this.history.add(event);
 	}
 
-	public String getEvents(){
-		StringBuilder sb = new StringBuilder();
-		history.forEach(h -> {
-			sb.append(h.toString());
-			sb.append("\n");
-		});
-		return sb.toString();
+	public List<Event> getHistory(){
+		return this.history;
 	}
 
 	public String getEventsWithMessage(String message){
@@ -82,11 +70,17 @@ public class Ticket implements Comparable<Ticket>{
 		return sb.toString();
 	}
 
+	public Status getStatus(){
+		Event latestEventWithStatus = this.history.stream().filter(h -> h.getNewStatus() != null)
+				.sorted(Comparator.comparing(Event::getTimestamp)).reduce(($, elem) -> elem).get();
+		return latestEventWithStatus.getNewStatus();
+	}
+
 	@Override
 	public int compareTo(Ticket o) {
 		if(this.priority != o.priority){
 			return Integer.compare(this.priority.ordinal(), o.priority.ordinal());
 		}
-		return Integer.compare(this.id, o.id);
+		return Integer.compare(-this.id, -o.id);
 	}
 }

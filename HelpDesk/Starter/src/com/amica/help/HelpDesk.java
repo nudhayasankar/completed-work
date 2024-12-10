@@ -17,7 +17,7 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public void createTechnician(String ID, String name, int extension) {
-        Technician technician = new Technician(ID, name, extension);
+        Technician technician = new Technician(ID, name, extension, this);
         tickets.put(technician, new TreeSet<>());
         assignmentQueue.add(technician);
     }
@@ -50,7 +50,7 @@ public class HelpDesk implements HelpDeskAPI{
         Ticket toFind = null;
         for (Technician tech : tickets.keySet()) {
             for (Ticket t : tickets.get(tech)) {
-                if (t.getId() == ID) {
+                if (t.getID() == ID) {
                     toFind = t;
                     break;
                 }
@@ -62,17 +62,20 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public SortedSet<Ticket> getTickets() {
-        return null;
+        SortedSet<Ticket> allTickets = new TreeSet<>(Collections.reverseOrder());
+        for(SortedSet<Ticket> technicianTickets : tickets.values()){
+            for(Ticket t : technicianTickets){
+                allTickets.add(t);
+            }
+        }
+        return allTickets;
     }
 
     @Override
     public List<Ticket> getTicketsByTechnician(String techID) {
-        for(Technician t : tickets.keySet()){
-            if(t.getId() == techID){
-                return new ArrayList<>(tickets.get(t));
-            }
-        }
-        return new ArrayList<>();
+        Technician tech = getTechnicians().stream().filter(t -> t.getId().equals(techID)).reduce(($,t)-> t).get();
+        SortedSet<Ticket> filteredTickets = tickets.get(tech);
+        return new ArrayList<>(filteredTickets);
     }
 
     @Override
@@ -102,15 +105,15 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public List<Ticket> getTicketsByStatus(Status status) {
-        List<Ticket> filteredTickets = new ArrayList<>();
-        for(Technician tech : tickets.keySet()){
-            for(Ticket t : tickets.get(tech)){
+        Set<Ticket> filteredTickets = new TreeSet<>(Collections.reverseOrder());
+        for(SortedSet<Ticket> technicianTickets : tickets.values()){
+            for(Ticket t : technicianTickets){
                 if(t.getStatus() == status){
                     filteredTickets.add(t);
                 }
             }
         }
-        return filteredTickets;
+        return new ArrayList<>(filteredTickets);
     }
 
     @Override
@@ -124,10 +127,15 @@ public class HelpDesk implements HelpDeskAPI{
         Technician assignTo = assignmentQueue.first();
         assignmentQueue.remove(assignTo);
         Ticket ticket = new Ticket(ticketId, originator, description, priority, assignTo);
-        ticket.setStatus(Status.ASSIGNED);
         tickets.get(assignTo).add(ticket);
         assignTo.incrementTickets();
         assignmentQueue.add(assignTo);
         return ticketId;
+    }
+
+    public List<Technician> getTechnicians() {
+        SortedSet<Technician> allTechs = new TreeSet<>(Comparator.comparing(Technician::getName));
+        allTechs.addAll(tickets.keySet());
+        return new ArrayList<>(allTechs);
     }
 }

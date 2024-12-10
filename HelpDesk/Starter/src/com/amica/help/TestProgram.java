@@ -1,6 +1,7 @@
 package com.amica.help;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import com.amica.help.Ticket.Priority;
 import com.amica.help.Ticket.Status;
@@ -200,10 +201,37 @@ public class TestProgram {
 	 */
 	public static void test2_History() {
 		System.out.println("Running test 2, history ...");
-		Ticket t1 = helpDesk.getTicketByID(1);
-		System.out.println(t1.getEvents());
-		assertTrue(helpDesk.getTicketByID(4).getStatus() == Status.RESOLVED, "Ticket 4 should be in resolved state.");
-		System.out.println(helpDesk.getTicketByID(5).getEventsWithMessage("corrupt files"));
+		Iterator<Event> history = helpDesk.getTicketByID(4).getHistory().iterator();
+		Event created4 = history.next();
+		assertEqual(Clock.format(created4.getTimestamp()), "11/1/21 9:05",
+				"Ticket 4 should have been created at 9:05, was %s.");
+		assertEqual(created4.getNewStatus(), Status.CREATED, "Ticket 4's first event should be CREATED, was %s.");
+		assertEqual(created4.getNote(), "Created ticket.", "Ticket 4 creation note is wrong: %s.");
+		Event assigned4 = history.next();
+		assertEqual(Clock.format(assigned4.getTimestamp()), "11/1/21 9:05",
+				"Ticket 4 should have been assigned at 9:05, was %s.");
+		assertEqual(assigned4.getNewStatus(), Status.ASSIGNED, "Ticket 4's second event should be ASSIGNED, was %s.");
+		assertEqual(assigned4.getNote(), "Assigned to Technician A20265, Dineh.",
+				"Ticket 4 assignment note is wrong: %s.");
+		Event resolved4 = history.next();
+		assertEqual(Clock.format(resolved4.getTimestamp()), "11/1/21 9:07",
+				"Ticket 4 should have been resolved at 9:07, was %s.");
+		assertEqual(resolved4.getNewStatus(), Status.RESOLVED, "Ticket 4's second event should be RESOLVED, was %s.");
+		assertEqual(resolved4.getNote(), "Explained that this is not a feature we support right now.",
+				"Ticket 4 resolution note is wrong: %s.");
+
+		history = helpDesk.getTicketByID(2).getHistory().iterator();
+		history.next();
+		history.next();
+		history.next();
+		Event note7 = history.next();
+		assertEqual(Clock.format(note7.getTimestamp()), "11/1/21 14:14",
+				"Ticket 2's 2nd note should be stamped 14:14, was %s.");
+		assertTrue(note7.getNewStatus() == null,
+				"Ticket 2's second note status should be null, was " + note7.getNewStatus() + ".");
+		assertEqual(note7.getNote(), "User: Yes, I can connect from other desktop machines at Amica.",
+				"Ticket 2's 2nd note is wrong: %s.");
+
 		System.out.println();
 	}
 
@@ -230,7 +258,42 @@ public class TestProgram {
 		assertCount(helpDesk.getTicketsByTechnician("A20265"), 3,
 				"Dineh should have been assigned 3 tickets, but has %s.");
 
+		Iterator<Ticket> tickets = ((HelpDesk) helpDesk).getTickets().iterator();
+		assertEqual(tickets.next().getID(), 7, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 11, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 1, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 2, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 5, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 8, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 9, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 10, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 14, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 3, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 4, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 6, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 12, "Out of sequence in master set: %s");
+		assertEqual(tickets.next().getID(), 13, "Out of sequence in master set: %s");
 
+		Iterator<Technician> techs = ((HelpDesk) helpDesk).getTechnicians().iterator();
+
+		tickets = techs.next().getActiveTickets().iterator();
+		assertEqual(tickets.next().getID(), 8, "Out of sequence for Andree: %s");
+		assertEqual(tickets.next().getID(), 12, "Out of sequence for Andree: %s");
+		assertEqual(tickets.next().getID(), 13, "Out of sequence for Andree: %s");
+		assertTrue(!tickets.hasNext(), "Andree should have 3 active tickets, was. %s");
+
+		tickets = techs.next().getActiveTickets().iterator();
+		assertEqual(tickets.next().getID(), 7, "Out of sequence for Boris: %s");
+		assertEqual(tickets.next().getID(), 2, "Out of sequence for Boris: %s");
+		assertEqual(tickets.next().getID(), 14, "Out of sequence for Boris: %s");
+		assertTrue(!tickets.hasNext(), "Boris should have 3 active tickets, was %s.");
+
+		tickets = techs.next().getActiveTickets().iterator();
+		assertEqual(tickets.next().getID(), 9, "Out of sequence for Caelem: %s");
+		assertTrue(!tickets.hasNext(), "Caelem should have 1 active tickets, was %s.");
+
+		tickets = techs.next().getActiveTickets().iterator();
+		assertTrue(!tickets.hasNext(), "Dineh should have 0 active tickets, was %s.");
 		System.out.println();
 	}
 
