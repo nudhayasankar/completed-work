@@ -1,6 +1,7 @@
 package com.amica.help;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.amica.help.Ticket.Priority;
 import com.amica.help.Ticket.Status;
@@ -8,6 +9,7 @@ import com.amica.help.Ticket.Status;
 public class HelpDesk implements HelpDeskAPI{
     public Map<Technician, SortedSet<Ticket>> tickets = new HashMap<>();
     private static int ticketId = 0;
+    private Tags tagsRepo = new Tags();
 
     private final TreeSet<Technician> assignmentQueue = new TreeSet<>(
             Comparator.comparingInt(Technician::getTicketsAssigned).thenComparing(Technician::getName));
@@ -42,7 +44,11 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public void addTags(int ticketID, String... tags) {
-
+        Ticket ticket = getTicketByID(ticketID);
+        for(String t : tags){
+            Tag toAdd = tagsRepo.getTag(t);
+            ticket.addTagToTicket(toAdd);
+        }
     }
 
     @Override
@@ -80,22 +86,48 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public List<Ticket> getTicketsWithAnyTag(String... tags) {
-        return null;
+        SortedSet<Ticket> filteredTickets = new TreeSet<>();
+        SortedSet<Ticket> allTickets = getTickets();
+        for(String tag : tags){
+           Tag findByTag = new Tag(tag);
+           for(Ticket tckt : allTickets){
+               if(tckt.getTicketTags().contains(findByTag)){
+                   filteredTickets.add(tckt);
+               }
+           }
+        }
+        return new ArrayList<>(filteredTickets);
     }
 
     @Override
     public int getAverageMinutesToResolve() {
+        List<Integer> resolutionTimes = new ArrayList<>(getAverageMinutesToResolvePerTechnician().values());
+        if(resolutionTimes.size() != 0){
+            int techCount = resolutionTimes.size();
+            int avgMinToResolve = Math.floorDiv(resolutionTimes.stream().reduce((t1, t2) -> t1 + t2).get(), techCount);
+            return avgMinToResolve;
+        }
         return 0;
     }
 
     @Override
     public Map<String, Integer> getAverageMinutesToResolvePerTechnician() {
-        return null;
+        Map<String, Integer> resolutionMap = new HashMap<>();
+        for(Technician tech : tickets.keySet()){
+            int avgResTime = tech.getAverageResolutionTime();
+            if(avgResTime != 0)
+                resolutionMap.put(tech.getId(), avgResTime);
+        }
+        return resolutionMap;
     }
 
     @Override
     public List<Ticket> getTicketsByText(String text) {
-        return null;
+        SortedSet<Ticket> filteredTickets = new TreeSet<>(Collections.reverseOrder());
+        List<Ticket> textTickets = getTickets().stream()
+                .filter(t -> t.includesText(text)).collect(Collectors.toList());
+        filteredTickets.addAll(textTickets);
+        return new ArrayList<>(filteredTickets);
     }
 
     @Override
@@ -118,6 +150,7 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public int reopenTicket(int priorTicketID, String reason, Priority priority) {
+        
         return 0;
     }
 

@@ -47,4 +47,18 @@ public class Technician{
         }
         return new ArrayList<>(activeTickets);
     }
+
+    public int getAverageResolutionTime() {
+        List<Ticket> resolvedTickets = helpDesk.tickets.get(this).stream()
+                .filter(t -> t.getStatus() == Ticket.Status.RESOLVED)
+                .collect(Collectors.toList());
+        int resolutionTime = 0;
+        int numResolvedTickets = resolvedTickets.size();
+        if(numResolvedTickets == 0) return 0;
+        for(Ticket t : resolvedTickets){
+            resolutionTime += t.getMinutesToResolve();
+        }
+        int averageResolutionTime = Math.floorDiv(resolutionTime, numResolvedTickets);
+        return averageResolutionTime;
+    }
 }

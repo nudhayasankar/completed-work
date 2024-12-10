@@ -310,8 +310,14 @@ public class TestProgram {
 	 */
 	public static void test4_Tags() {
 		System.out.println("Running test 4, tags ...");
+		assertCount(helpDesk.getTicketsWithAnyTag("laptop"), 3,
+				"There should be 3 tickets with the 'laptop' tag, was %s.");
 
+		assertCount(helpDesk.getTicketsWithAnyTag("VM"), 2,
+				"There should be 2 tickets with the 'vm' tag, was %s.");
 
+		assertCount(helpDesk.getTicketsWithAnyTag("permissions", "CMA"), 3,
+				"There should be 3 tickets with the 'permissions' and/or 'CMA' tags, was %s.");
 		System.out.println();
 	}
 
@@ -383,6 +389,22 @@ public class TestProgram {
 		helpDesk.reopenTicket(3, "Still can't log in.", Priority.HIGH);
 		Clock.setTime("11/3/21 14:59");
 		helpDesk.addTags(3, "VPN");
+
+		long expectedSize = getCount(helpDesk.getTicketByID(6).getHistory()) + 2;
+		long actualSize = getCount(helpDesk.getTicketByID(15).getHistory());
+		assertEqual(actualSize, expectedSize,
+				"Reopened ticket should have " + expectedSize + " events, was %s");
+
+		assertTrue(helpDesk.getTicketsWithAnyTag("GitHub")
+						.contains(helpDesk.getTicketByID(16)),
+				"Reopened ticket not found by prior ticket's tag;");
+		assertTrue(helpDesk.getTicketsWithAnyTag("VPN")
+						.contains(helpDesk.getTicketByID(16)),
+				"Reopened ticket not found by its own tag;");
+
+		assertTrue(helpDesk.getTicketsByText("access")
+						.contains(helpDesk.getTicketByID(15)),
+				"Reopened ticked should be found by original description.");
 
 		System.out.println();
 	}

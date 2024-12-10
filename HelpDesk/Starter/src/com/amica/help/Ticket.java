@@ -1,8 +1,7 @@
 package com.amica.help;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class representing a problem ticket for a help desk.
@@ -21,6 +20,7 @@ public class Ticket implements Comparable<Ticket>{
 	private final String TICKET_CREATED = "Created ticket.";
 	private final String TICKET_ASSIGNED = "Assigned to Technician %s, %s.";
 	private Technician assignedTo;
+	private SortedSet<Tag> ticketTags;
 
 	public Ticket(int id, String originator, String description, Priority priority, Technician assignedTo){
 		this.id = id;
@@ -31,6 +31,7 @@ public class Ticket implements Comparable<Ticket>{
 		this.history.add(new Event(TICKET_CREATED, Status.CREATED));
 		this.assignedTo = assignedTo;
 		this.history.add(new Event(String.format(TICKET_ASSIGNED, assignedTo.getId(), assignedTo.getName()), Status.ASSIGNED));
+		this.ticketTags = new TreeSet<>();
 	}
 
 	public int getID() {
@@ -82,5 +83,37 @@ public class Ticket implements Comparable<Ticket>{
 			return Integer.compare(this.priority.ordinal(), o.priority.ordinal());
 		}
 		return Integer.compare(-this.id, -o.id);
+	}
+
+	public void addTagToTicket(Tag t){
+		this.ticketTags.add(t);
+	}
+
+	public SortedSet<Tag> getTicketTags() {
+		return ticketTags;
+	}
+
+	public int getMinutesToResolve(){
+		if(getStatus() != Status.RESOLVED) {
+			return 0;
+		}
+		Event creationEvent = this.history.stream().filter(h -> h.getNewStatus() == Status.CREATED)
+				.reduce(($, event) -> event).get();
+		Event resolutionEvent = this.history.stream().filter(h -> h.getNewStatus() == Status.RESOLVED)
+				.reduce(($, event) -> event).get();
+		long resolutionTime = TimeUnit.MILLISECONDS.toMinutes(resolutionEvent.getTimestamp() - creationEvent.getTimestamp());
+		return (int) resolutionTime;
+	}
+
+	public boolean includesText(String searchText) {
+		if(description.toLowerCase().contains(searchText.toLowerCase())){
+			return true;
+		}
+		for(Event e : history){
+			if(e.getNote().toLowerCase().contains(searchText.toLowerCase())){
+				return true;
+			}
+		}
+		return false;
 	}
 }
