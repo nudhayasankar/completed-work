@@ -200,8 +200,10 @@ public class TestProgram {
 	 */
 	public static void test2_History() {
 		System.out.println("Running test 2, history ...");
-
-
+		Ticket t1 = helpDesk.getTicketByID(1);
+		System.out.println(t1.getEvents());
+		assertTrue(helpDesk.getTicketByID(4).getStatus() == Status.RESOLVED, "Ticket 4 should be in resolved state.");
+		System.out.println(helpDesk.getTicketByID(5).getEventsWithMessage("corrupt files"));
 		System.out.println();
 	}
 

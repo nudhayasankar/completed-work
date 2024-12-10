@@ -9,7 +9,7 @@ public class HelpDesk implements HelpDeskAPI{
     public Map<Technician, SortedSet<Ticket>> tickets = new HashMap<>();
     private static int ticketId = 0;
 
-    private final PriorityQueue<Technician> assignmentQueue = new PriorityQueue<>(
+    private final TreeSet<Technician> assignmentQueue = new TreeSet<>(
             Comparator.comparingInt(Technician::getTicketsAssigned).thenComparing(Technician::getName));
 
     public HelpDesk(){
@@ -18,7 +18,7 @@ public class HelpDesk implements HelpDeskAPI{
     @Override
     public void createTechnician(String ID, String name, int extension) {
         Technician technician = new Technician(ID, name, extension);
-        tickets.put(technician, new TreeSet<Ticket>());
+        tickets.put(technician, new TreeSet<>());
         assignmentQueue.add(technician);
     }
 
@@ -32,9 +32,11 @@ public class HelpDesk implements HelpDeskAPI{
     public void resolveTicket(int ticketID, String note) {
         Ticket toResolve = getTicketByID(ticketID);
         if(toResolve != null){
+            toResolve.addEvent(note, Status.RESOLVED);
             Technician assignedTech = toResolve.getAssignedTo();
-            toResolve.setStatus(Status.RESOLVED);
+            assignmentQueue.remove(assignedTech);
             assignedTech.decrementTickets();
+            assignmentQueue.add(assignedTech);
         }
     }
 
@@ -119,7 +121,8 @@ public class HelpDesk implements HelpDeskAPI{
     @Override
     public int createTicket(String originator, String description, Priority priority) {
         ticketId++;
-        Technician assignTo = assignmentQueue.poll();
+        Technician assignTo = assignmentQueue.first();
+        assignmentQueue.remove(assignTo);
         Ticket ticket = new Ticket(ticketId, originator, description, priority, assignTo);
         ticket.setStatus(Status.ASSIGNED);
         tickets.get(assignTo).add(ticket);

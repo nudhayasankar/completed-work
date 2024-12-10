@@ -57,6 +57,31 @@ public class Ticket implements Comparable<Ticket>{
 		this.history.add(event);
 	}
 
+	public void addEvent(String message, Status status){
+		this.status = status;
+		addEvent(message);
+	}
+
+	public String getEvents(){
+		StringBuilder sb = new StringBuilder();
+		history.forEach(h -> {
+			sb.append(h.toString());
+			sb.append("\n");
+		});
+		return sb.toString();
+	}
+
+	public String getEventsWithMessage(String message){
+		StringBuilder sb = new StringBuilder();
+		history.forEach(h -> {
+			if(h.getNote().contains(message)){
+				sb.append(h.toString());
+				sb.append("\n");
+			}
+		});
+		return sb.toString();
+	}
+
 	@Override
 	public int compareTo(Ticket o) {
 		if(this.priority != o.priority){
