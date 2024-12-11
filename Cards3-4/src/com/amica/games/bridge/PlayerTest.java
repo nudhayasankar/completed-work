@@ -75,7 +75,7 @@ public class PlayerTest {
 				new Card(Suit.SPADES, Spot._4),
 				new Card(Suit.SPADES, Spot._5),
 				new Card(Suit.SPADES, Spot.QUEEN)
-			), new Trick(), new Card(Suit.SPADES, Spot.QUEEN));
+			), new Trick(), new Card(Suit.CLUBS, Spot.KING));
 	}
 	
 	public static boolean testFollowSuitAndWin() {

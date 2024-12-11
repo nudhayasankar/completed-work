@@ -41,12 +41,11 @@ public class Player {
 
     public Card play(Trick trick) {
         if (trick.isEmpty()) {
-            SortedSet<Card> highCards = new TreeSet<>();
+            SortedSet<Card> highCards = new TreeSet<>(Comparator.comparing(Card::getSpot));
             for (Card.Suit s : cards.keySet()) {
                 highCards.add(cards.get(s).first());
             }
-            Card toPlay = highCards.stream().sorted(($,c) -> c.getSpot().ordinal())
-                    .reduce(($, last) -> last).get();
+            Card toPlay = highCards.last();
             removeCard(toPlay);
             return toPlay;
         } else {
