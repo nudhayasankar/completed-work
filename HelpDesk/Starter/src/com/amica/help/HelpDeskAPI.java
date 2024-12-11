@@ -106,4 +106,5 @@ public interface HelpDeskAPI {
 	 * include the given text.
 	 */
 	public List<Ticket> getTicketsByText(String text);
+
 }

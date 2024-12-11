@@ -91,6 +91,11 @@ public class HelpDesk implements HelpDeskAPI{
         for(String tag : tags){
            Tag findByTag = new Tag(tag);
            for(Ticket tckt : allTickets){
+               if(tckt instanceof ReopenedTicket){
+                   if(((ReopenedTicket) tckt).getPriorTicket().getTicketTags().contains(findByTag)){
+                       filteredTickets.add(tckt);
+                   }
+               }
                if(tckt.getTicketTags().contains(findByTag)){
                    filteredTickets.add(tckt);
                }
@@ -101,10 +106,11 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public int getAverageMinutesToResolve() {
-        List<Integer> resolutionTimes = new ArrayList<>(getAverageMinutesToResolvePerTechnician().values());
+        List<Ticket> resolvedTickets = getTicketsByStatus(Status.RESOLVED);
+        List<Integer> resolutionTimes = resolvedTickets.stream().map(Ticket::getMinutesToResolve).collect(Collectors.toList());
         if(resolutionTimes.size() != 0){
-            int techCount = resolutionTimes.size();
-            int avgMinToResolve = Math.floorDiv(resolutionTimes.stream().reduce((t1, t2) -> t1 + t2).get(), techCount);
+            int techCount = resolvedTickets.size();
+            int avgMinToResolve = resolutionTimes.stream().reduce((t1, t2) -> t1 + t2).get() / techCount;
             return avgMinToResolve;
         }
         return 0;
@@ -132,7 +138,15 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public List<Ticket> getTicketsByNotStatus(Status status) {
-        return null;
+        Set<Ticket> filteredTickets = new TreeSet<>(Collections.reverseOrder());
+        for(SortedSet<Ticket> technicianTickets : tickets.values()){
+            for(Ticket t : technicianTickets){
+                if(t.getStatus() != status){
+                    filteredTickets.add(t);
+                }
+            }
+        }
+        return new ArrayList<>(filteredTickets);
     }
 
     @Override
@@ -150,8 +164,15 @@ public class HelpDesk implements HelpDeskAPI{
 
     @Override
     public int reopenTicket(int priorTicketID, String reason, Priority priority) {
-        
-        return 0;
+        ticketId++;
+        Technician assignTo = assignmentQueue.first();
+        assignmentQueue.remove(assignTo);
+        Ticket priorTicket = getTicketByID(priorTicketID);
+        ReopenedTicket reopenedTicket = new ReopenedTicket(ticketId, priorTicket, reason, priority, assignTo);
+        tickets.get(assignTo).add(reopenedTicket);
+        assignTo.incrementTickets();
+        assignmentQueue.add(assignTo);
+        return ticketId;
     }
 
     @Override
@@ -170,5 +191,9 @@ public class HelpDesk implements HelpDeskAPI{
         SortedSet<Technician> allTechs = new TreeSet<>(Comparator.comparing(Technician::getName));
         allTechs.addAll(tickets.keySet());
         return new ArrayList<>(allTechs);
+    }
+
+    public Tags getTagsRepo() {
+        return tagsRepo;
     }
 }

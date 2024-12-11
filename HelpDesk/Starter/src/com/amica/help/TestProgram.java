@@ -9,6 +9,7 @@ import com.amica.help.Ticket.Status;
 public class TestProgram {
 
 	public static HelpDeskAPI helpDesk;
+	public static Tags tags;
 
 	public static void addNote(int ticketID, String note) {
 		helpDesk.addNoteToTicket(ticketID, note);
@@ -39,6 +40,11 @@ public class TestProgram {
 		helpDesk.createTechnician("A12312", "Boris", 12399);
 		helpDesk.createTechnician("A17440", "Caelem", 34002);
 		helpDesk.createTechnician("A20265", "Dineh", 60709);
+		tags = ((HelpDesk)helpDesk).getTagsRepo();
+		Tag remotingTag = tags.getTag("remoting");
+		tags.addSynonym("Remote desktop", remotingTag);
+		tags.addSynonym("RDP", remotingTag);
+
 
 		Clock.setTime("11/1/21 8:22");
 		helpDesk.createTicket("A21013", "Unable to log in.", Priority.HIGH);
@@ -430,7 +436,18 @@ public class TestProgram {
 	 */
 	public static void test8_Synonyms() {
 		System.out.println("Running test 8, synonyms ...");
-
+		assertCount(helpDesk.getTicketsWithAnyTag("remoting"), 6,
+				"There should be 6 tickets with the 'remoting' tag, was %s.");
+		assertEqual(tags.getTag("github").getValue(), "GitHub", "The tag capitalization GitHub should be used, was %s");
+		Iterator<Tag> allTags = tags.getTags().iterator();
+		assertEqual(allTags.next().getValue(), "audio", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "CMA", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "GitHub", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "laptop", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "permissions", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "remoting", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "VM", "Unexpected tag: %s.");
+		assertEqual(allTags.next().getValue(), "VPN", "Unexpected tag: %s.");
 
 		System.out.println();
 	}

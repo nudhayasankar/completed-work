@@ -4,7 +4,11 @@ public class Tag implements Comparable<Tag> {
     private String value;
 
     public Tag(String value){
-        this.value = value.toLowerCase();
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

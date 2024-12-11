@@ -34,6 +34,10 @@ public class Ticket implements Comparable<Ticket>{
 		this.ticketTags = new TreeSet<>();
 	}
 
+	public String getOriginator() {
+		return originator;
+	}
+
 	public int getID() {
 		return id;
 	}
