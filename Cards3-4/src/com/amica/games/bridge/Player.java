@@ -3,8 +3,6 @@ package com.amica.games.bridge;
 import com.amica.games.Card;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 import com.amica.games.CardFormatter;
 
 public class Player {
@@ -47,7 +45,8 @@ public class Player {
             for (Card.Suit s : cards.keySet()) {
                 highCards.add(cards.get(s).first());
             }
-            Card toPlay = highCards.last();
+            Card toPlay = highCards.stream().sorted(($,c) -> c.getSpot().ordinal())
+                    .reduce(($, last) -> last).get();
             removeCard(toPlay);
             return toPlay;
         } else {
