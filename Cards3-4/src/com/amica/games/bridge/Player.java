@@ -3,6 +3,8 @@ package com.amica.games.bridge;
 import com.amica.games.Card;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import com.amica.games.CardFormatter;
 
 public class Player {
@@ -41,9 +43,11 @@ public class Player {
 
     public Card play(Trick trick) {
         if (trick.isEmpty()) {
+            int longestSuitLen = cards.values().stream().map(c -> c.size()).max(($,c) -> -c).get();
             SortedSet<Card> highCards = new TreeSet<>(Comparator.comparing(Card::getSpot));
             for (Card.Suit s : cards.keySet()) {
-                highCards.add(cards.get(s).first());
+                if(!cards.get(s).isEmpty() && cards.get(s).size() >= longestSuitLen)
+                    highCards.add(cards.get(s).first());
             }
             Card toPlay = highCards.last();
             removeCard(toPlay);
