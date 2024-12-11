@@ -120,4 +120,8 @@ public class Ticket implements Comparable<Ticket>{
 		}
 		return false;
 	}
+
+	public boolean hasTag(Tag tag){
+		return ticketTags.contains(tag);
+	}
 }

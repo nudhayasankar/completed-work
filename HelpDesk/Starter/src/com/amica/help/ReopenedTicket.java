@@ -32,4 +32,9 @@ public class ReopenedTicket extends Ticket{
     public boolean includesText(String keyword){
         return priorTicket.includesText(keyword) || super.includesText(keyword);
     }
+
+    @Override
+    public boolean hasTag(Tag tag){
+        return priorTicket.hasTag(tag) || super.hasTag(tag);
+    }
 }

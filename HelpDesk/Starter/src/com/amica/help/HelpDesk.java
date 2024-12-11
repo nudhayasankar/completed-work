@@ -89,14 +89,9 @@ public class HelpDesk implements HelpDeskAPI{
         SortedSet<Ticket> filteredTickets = new TreeSet<>();
         SortedSet<Ticket> allTickets = getTickets();
         for(String tag : tags){
-           Tag findByTag = new Tag(tag);
+           Tag findByTag = tagsRepo.getTag(tag);
            for(Ticket tckt : allTickets){
-               if(tckt instanceof ReopenedTicket){
-                   if(((ReopenedTicket) tckt).getPriorTicket().getTicketTags().contains(findByTag)){
-                       filteredTickets.add(tckt);
-                   }
-               }
-               if(tckt.getTicketTags().contains(findByTag)){
+               if(tckt.hasTag(findByTag)){
                    filteredTickets.add(tckt);
                }
            }
