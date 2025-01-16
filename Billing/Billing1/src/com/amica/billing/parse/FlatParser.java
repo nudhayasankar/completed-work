@@ -135,7 +135,7 @@ public class FlatParser implements Parser{
 				CUSTOMER_FIRST_NAME_LENGTH, CUSTOMER_LAST_NAME_LENGTH,
 				CUSTOMER_TERMS_LENGTH);
 		//TODO provide the values to be formatted
-		return String.format(formatString, "NYI", "NYI", "NYI");
+		return String.format(formatString, customer.getFirstName(), customer.getLastName(), customer.getPaymentTerm().name());
 	}
 	
 	/**
@@ -152,7 +152,8 @@ public class FlatParser implements Parser{
 
 		//TODO provide the values to be formatted
 		return String.format(formatString, 
-				0, "NYI", "NYI", 0.0, "NYI", "NYI");
+				invoice.getNumber(), invoice.getCustomer().getFirstName(),
+				invoice.getCustomer().getLastName(), invoice.getAmount(), invoice.getInvoiceDate(), invoice.getPaidDate());
 	}
 
 	@Override
@@ -167,11 +168,11 @@ public class FlatParser implements Parser{
 
 	@Override
 	public Stream<String> produceCustomers(Stream<Customer> customers) {
-		return null;
+		return customers.map(customer -> formatCustomer(customer));
 	}
 
 	@Override
 	public Stream<String> produceInvoices(Stream<Invoice> invoices) {
-		return null;
+		return invoices.map(invoice -> formatInvoice(invoice));
 	}
 }
