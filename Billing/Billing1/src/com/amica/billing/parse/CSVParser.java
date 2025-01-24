@@ -14,7 +14,7 @@ import lombok.extern.java.Log;
 
 /**
  * A parser that can read a CSV format with certain expected columns.
- * 
+ *
  * @author Will Provost
  */
 @Log
@@ -50,11 +50,11 @@ public class CSVParser implements Parser {
 				Customer customer = new Customer(firstName, lastName, paymentTerm);
 				return customer;
 			} catch (Exception ex) {
-				log.warning(() -> 
+				log.warning(() ->
 					"Couldn't parse terms value, skipping customer: "+ line);
 			}
 		} else {
-			log.warning(() -> 
+			log.warning(() ->
 				"Incorrect number of fields, skipping customer: " + line);
 		}
 
@@ -76,21 +76,21 @@ public class CSVParser implements Parser {
 				String name = String.format("%s %s", first, last);
 				double amount = Double.parseDouble
 						(fields[INVOICE_AMOUNT_COLUMN]);
-				
+
 				LocalDate date = LocalDate.parse(fields[INVOICE_DATE_COLUMN], parser);
-				Optional<LocalDate> paidDate = fields.length > INVOICE_PAID_DATE_COLUMN 
-						? Optional.of(LocalDate.parse(fields[INVOICE_PAID_DATE_COLUMN], parser)) 
+				Optional<LocalDate> paidDate = fields.length > INVOICE_PAID_DATE_COLUMN
+						? Optional.of(LocalDate.parse(fields[INVOICE_PAID_DATE_COLUMN], parser))
 						: Optional.empty();
 
 				Customer customer = customers.get(name);
 				Invoice invoice = new Invoice(number, amount, date, paidDate.orElse(null), customer);
 				return invoice;
 			} catch (Exception ex) {
-				log.warning(() -> 
+				log.warning(() ->
 					"Couldn't parse values, skipping invoice: " + line);
 			}
 		} else {
-			log.warning(() -> 
+			log.warning(() ->
 				"Incorrect number of fields, skipping invoice: " + line);
 		}
 
@@ -103,7 +103,7 @@ public class CSVParser implements Parser {
 	public String formatCustomer(Customer customer) {
 		return String.format("%s,%s,%s", customer.getFirstName(), customer.getLastName(), customer.getPaymentTerm().name());
 	}
-	
+
 	/**
 	 * Helper to write a CSV representation of one invoice.
 	 */

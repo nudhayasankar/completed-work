@@ -7,12 +7,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.amica.billing.Customer.Terms;
 
 public class Billing {
     String customerFilePath;
@@ -24,6 +27,7 @@ public class Billing {
     Comparator<Invoice> byNumber = Comparator.comparing(Invoice::getNumber);
     Comparator<Invoice> byIssueDate = Comparator.comparing(Invoice::getInvoiceDate);
     List<Consumer<Invoice>> invoiceListeners;
+    static final Random invoiceIdGenerator = new Random();
 
     public Billing(String customerFile, String invoiceFile) {
         customerFilePath = customerFile;
@@ -58,9 +62,8 @@ public class Billing {
 
     @SneakyThrows
     public Stream<String> readFile(String fileName) {
-        FileReader fileReader = new FileReader(fileName);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        return bufferedReader.lines();
+        Stream<String> lines = Files.lines(Paths.get(fileName));
+        return lines;
     }
 
     public Stream<Invoice> getInvoicesOrderedByNumber() {
@@ -94,11 +97,8 @@ public class Billing {
     public void saveCustomers() {
         Stream<Customer> customerStream = customers.values().stream();
         Stream<String> parsedCustomers = customerParser.produceCustomers(customerStream);
-        try(PrintWriter pw = new PrintWriter(new File(customerFilePath))) {
-            parsedCustomers.forEach(pc -> {
-                pw.write(pc);
-                pw.write("\n");
-            });
+        try(PrintWriter pw = new PrintWriter(customerFilePath)) {
+            parsedCustomers.forEach(pc -> pw.println(pc));
         }
     }
 
@@ -106,11 +106,8 @@ public class Billing {
     public void saveInvoices() {
         Stream<Invoice> invoiceStream = invoices.stream();
         Stream<String> parsedInvoices = invoiceParser.produceInvoices(invoiceStream);
-        try(PrintWriter pw = new PrintWriter(new File(customerFilePath))) {
-            parsedInvoices.forEach(pi -> {
-                pw.write(pi);
-                pw.write("\n");
-            });
+        try(PrintWriter pw = new PrintWriter(customerFilePath)) {
+            parsedInvoices.forEach(pi -> pw.println(pi));
         }
     }
 
@@ -134,5 +131,17 @@ public class Billing {
 
     public void removeListener(Consumer<Invoice> listener) {
         invoiceListeners.remove(listener);
+    }
+
+    public void createCustomer(String firstName, String lastName, Terms paymentTerm) {
+        Customer customer = new Customer(firstName, lastName, paymentTerm);
+        customers.put(customer.getName(), customer);
+    }
+
+    public void createInvoice(String customerName, double amount) {
+        int number = invoiceIdGenerator.nextInt(1000);
+        Customer customer = customers.get(customerName);
+        Invoice invoice = new Invoice(number, amount, LocalDate.now(), null, customer);
+        invoices.add(invoice);
     }
 }

@@ -89,13 +89,13 @@ public class TestMovieStars {
 				(billing, OUTPUT_FOLDER, LocalDate.of(2021, 12, 1));
 		
 		reporter.reportInvoicesOrderedByNumber();
-//		reporter.reportInvoicesGroupedByCustomer();
+		reporter.reportInvoicesGroupedByCustomer();
 //		reporter.reportOverdueInvoices();
 //		reporter.reportCustomersAndVolume();
 //
-//		billing.createCustomer("Lionel", "Barrymore", Terms.CASH);
-//		billing.createInvoice("Lionel Barrymore", 9.99);
-//		billing.createInvoice("Porter Hall", 133);
+		billing.createCustomer("Lionel", "Barrymore", Terms.CASH);
+		billing.createInvoice("Lionel Barrymore", 9.99);
+		billing.createInvoice("Porter Hall", 133);
 		billing.payInvoice(958);
 	}
 	

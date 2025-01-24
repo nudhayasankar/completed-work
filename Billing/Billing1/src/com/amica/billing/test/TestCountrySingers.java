@@ -5,11 +5,13 @@ import com.amica.billing.Customer;
 import com.amica.billing.Customer.*;
 import com.amica.billing.Invoice;
 import com.amica.billing.parse.*;
+import com.amica.billing.report.Reporter;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -82,22 +84,20 @@ public class TestCountrySingers {
 	public static void testReporter() {
 		System.out.println("Testing the Reporter object ...");
 		System.out.println();
-		
-		/*
+
 		Billing billing = new Billing(CUSTOMERS_FILENAME, INVOICES_FILENAME);
 		Reporter reporter = new Reporter
 				(billing, OUTPUT_FOLDER, LocalDate.of(2021, 12, 1));
 		
 		reporter.reportInvoicesOrderedByNumber();
 		reporter.reportInvoicesGroupedByCustomer();
-		reporter.reportOverdueInvoices();
-		reporter.reportCustomersAndVolume();
+//		reporter.reportOverdueInvoices();
+//		reporter.reportCustomersAndVolume();
 
 		billing.createCustomer("Merle", "Haggard", Terms.CASH);		
 		billing.createInvoice("Merle Haggard", 100);
 		billing.createInvoice("John Hiatt", 999);
 		billing.payInvoice(107);
-		*/
 	}
 	
 	public static void main(String[] args) {
