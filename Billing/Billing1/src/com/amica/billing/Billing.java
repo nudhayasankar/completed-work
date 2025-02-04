@@ -35,11 +35,11 @@ public class Billing {
         ParserFactory parserFactory = new ParserFactory();
         customerParser = parserFactory.createParser(customerFile);
         invoiceParser = parserFactory.createParser(invoiceFile);
-        Stream<String> customerLines = readFile(customerFile);
-        Stream<String> invoiceLines = readFile(invoiceFile);
-        Stream<Customer> customerStream = customerParser.parseCustomers(customerLines);
+        List<String> customerLines = readFile(customerFile);
+        List<String> invoiceLines = readFile(invoiceFile);
+        Stream<Customer> customerStream = customerParser.parseCustomers(customerLines.stream());
         customers = customerStream.collect(Collectors.toMap(Customer::getName, Function.identity()));
-        Stream<Invoice> invoiceStream = invoiceParser.parseInvoices(invoiceLines, customers);
+        Stream<Invoice> invoiceStream = invoiceParser.parseInvoices(invoiceLines.stream(), customers);
         invoices = invoiceStream.collect(Collectors.toList());
         invoiceListeners = new ArrayList<>();
     }
@@ -61,9 +61,10 @@ public class Billing {
     }
 
     @SneakyThrows
-    public Stream<String> readFile(String fileName) {
-        Stream<String> lines = Files.lines(Paths.get(fileName));
-        return lines;
+    public List<String> readFile(String fileName) {
+        try(Stream<String> lines = Files.lines(Paths.get(fileName))) {
+            return lines.collect(Collectors.toList());
+        }
     }
 
     public Stream<Invoice> getInvoicesOrderedByNumber() {
