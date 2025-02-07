@@ -24,6 +24,8 @@ public class ParserFactory {
 	public static void resetParsers() {
 		parsers.put("csv", CSVParser::new);
 		parsers.put("flat", FlatParser::new);
+		parsers.put("CSV", CSVParser::new);
+		parsers.put("FLAT", FlatParser::new);
 		parsers.put(null, CSVParser::new);
 	}
 
