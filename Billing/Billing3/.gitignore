@@ -1,0 +1,7 @@
+.idea/
+alternate/
+expected/
+target/
+temp/
+*.iml
+*.pdf
