@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dabda5c5-c34b-49c0-9b3a-3b6029dab27e" name="Default Changelist" comment="" />
+    <list default="true" id="dabda5c5-c34b-49c0-9b3a-3b6029dab27e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../CD/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CD/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/Treasure.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/ExampleGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/Island.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/RandomGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/coin.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/coinTrace.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/empty.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/noPlayer.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/player.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/treasure.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/unknown.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/wizard.jpg" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +30,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="2n75TYTNRDhIdntICletfqx1Bu4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -22,7 +42,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/files" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Guidewire/amica_plugin_java11_pc/src" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">

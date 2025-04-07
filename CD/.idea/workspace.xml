@@ -2,7 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f1de214-bd15-4e46-a03c-25a6c63375ad" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/finance/TestProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finance/TestProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/Treasure.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/ExampleGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/Game$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/Island$Contents.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/Island$Coordinates.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/Island.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/RandomGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/coin.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/coinTrace.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/empty.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/noPlayer.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/player.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/treasure.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/unknown.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/out/production/Treasure/treasure/wizard.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/ExampleGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/Island.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/RandomGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/coin.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/coinTrace.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/empty.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/noPlayer.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/player.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/treasure.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/unknown.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Treasure/Treasure/src/treasure/wizard.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,5 +107,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
