@@ -52,7 +52,7 @@ public class Monitor {
                 logMessage("Updating status");
                 logMessage(status.name());
                 logMessage("Sending message");
-                jmsTemplate.convertAndSend(topicName,status);
+                jmsTemplate.convertAndSend(topicName,status.name());
                 latestStatus = status;
             }
         } catch(FileNotFoundException fnf) {

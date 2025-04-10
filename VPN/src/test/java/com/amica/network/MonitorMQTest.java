@@ -35,7 +35,8 @@ public class MonitorMQTest {
     public void testStatusChanged() {
         setLatestStatus(Monitor.Status.STARTING);
         monitor.scheduledMethod();
-        Mockito.verify(mockTemplate, Mockito.times(1)).convertAndSend("TestTopic", Monitor.Status.STARTING);
+        Mockito.verify(mockTemplate, Mockito.times(1))
+                .convertAndSend("TestTopic", Monitor.Status.STARTING.name());
     }
 
     @Test
@@ -43,7 +44,8 @@ public class MonitorMQTest {
     public void testStatusUnchanged() {
         setLatestStatus(Monitor.Status.STARTING);
         monitor.scheduledMethod();
-        Mockito.verify(mockTemplate, Mockito.times(0)).convertAndSend("TestTopic", Monitor.Status.RUNNING);
+        Mockito.verify(mockTemplate, Mockito.times(0))
+                .convertAndSend("TestTopic", Monitor.Status.RUNNING.name());
     }
 
 
